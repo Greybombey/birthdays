@@ -28,27 +28,28 @@ $(document).ready(function(){
 
         //проверка даты на соответствие стандарту dd.mm.yyyy
         var res2 = false;
+
+        // parse date by id
         var date = $("#date");
+
+        //get numbers from input and make them yyyy-mm-dd
         var str = date.val().split(".");
-        /*var day = str[0]+str[1];
-        var month = str[3]+str[4];
-        var year = str[6]+str[7]+ str[8]+str[9]
-        if(parseInt(day)>31 | parseInt(month)>12 | parseInt(year)>2020)
-        {
+        var intDate = str[2]+'-'+(str[1])+'-'+str[0];
+
+        //check if data basicly valid
+        var newDate = new Date(intDate);
+        if(newDate == 'Invalid Date'){
             res2 = true;
             date.after('<span class="text-error for-date">Неверная дата!</span>');
-
-        }*/
-        //надо доработать валидацию даты, try не работает https://stackoverflow.com/questions/1353684/detecting-an-invalid-date-date-instance-in-javascript
-        try {
-            if new Date(parseInt(str[2]), parseInt(str[1]), parseInt(str[0]));
-            alert("Try gonna try!");
-
-        } catch(err) {
-            res2 = true;
-            date.after('<span class="text-error for-date">Неверная дата!</span>');
-            alert(newDate+"ГОД "+str[2]+"\nМесяц "+str[1]+"\nДень "+str[0]);
         }
+        //check if date is correct for given  month
+        else if (str[2] != newDate.getFullYear() | str[1] != (parseInt(newDate.getMonth())+1) | str[0] != newDate.getDate()){
+
+            res2 = true;
+            date.after('<span class="text-error for-date">В этом месяце нет такого числа!</span>');
+        }
+
+        //if date correct - do nothing
         return (res1 | res2);
     }
 });
